@@ -116,13 +116,17 @@ class NumericTokeniser {
                     // DEBUG - begin
                     // System.out.println(startIndex + "-->" + endIndex);
                     // DEBUG - end
+                    // if known substring overlaps with the previous one, skip this substring 
+                    if (endIndex < startIndex){
+                        continue;
+                    }
                     fragment = nameFragment.substring( startIndex, endIndex ); // !!! TODO rare calls to this line cause String to through ArrayOutOfBounds. Review code
                     if ( fragment.length() > 0 ) {
                         tokens.add( fragment );
                     }
                     fragment = nameFragment.substring( endIndex, endIndex + knownSubstrings.get( i ).length() );
                     tokens.add( fragment ); // no guard as this should never be zero length
-                    // set the start for the beginning of thge next iteration
+                    // set the start for the beginning of the next iteration
                     startIndex = endIndex + knownSubstrings.get( i ).length();
                 }
 

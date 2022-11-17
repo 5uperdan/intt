@@ -26,7 +26,7 @@ import org.junit.Ignore;
 import java.util.stream.Collectors;
 
 /**
- * Simple tests of the fundamental functionality of {@code BasicTokeniser}. 
+ * Simple tests of the fundamental functionality of {@code BasicTokeniser}.
  *
  */
 public class BasicTokeniserTest {
@@ -46,7 +46,7 @@ public class BasicTokeniserTest {
         String test = "z";
 
         List<String> tokens = tokeniser.tokenise(test);
-	assertThat("Only one token expected", tokens.size(), is(1) );
+        assertThat("Only one token expected", tokens.size(), is(1));
         assertThat("Failed to split \"z\" correctly", tokens.get(0), is(equalTo("z")));
     }
 
@@ -56,8 +56,8 @@ public class BasicTokeniserTest {
 
         List<String> tokens = tokeniser.tokenise(test);
 
-	assertThat("Only one token expected", tokens.size(), is(1) );
-	assertThat("Failed to split \"ds\" correctly", tokens.get(0), is(equalTo("ds")));
+        assertThat("Only one token expected", tokens.size(), is(1));
+        assertThat("Failed to split \"ds\" correctly", tokens.get(0), is(equalTo("ds")));
     }
 
     @Test
@@ -66,21 +66,18 @@ public class BasicTokeniserTest {
 
         List<String> tokens = tokeniser.tokenise(test);
 
-	assertThat(String.format("Only one token expected, but found %d tokens - %s",
-				 tokens.size(),
-				 tokens.stream().collect(Collectors.joining(", ", "[", "]")) ),
-		   tokens.size(),
-		   is(1) );
+        assertThat(String.format("Only one token expected, but found %d tokens - %s", tokens.size(),
+                tokens.stream().collect(Collectors.joining(", ", "[", "]"))), tokens.size(), is(1));
         assertThat("Failed to strip leading \'$\'", tokens.get(0), is(equalTo("test")));
 
         test = "$$test";
         tokens = tokeniser.tokenise(test);
-	assertThat("Only one token expected", tokens.size(), is(1));
+        assertThat("Only one token expected", tokens.size(), is(1));
         assertThat("Failed to strip leading \'$$\'", tokens.get(0), is(equalTo("test")));
 
         test = "__test";
         tokens = tokeniser.tokenise(test);
-	assertThat("Only one token expected", tokens.size(), is(1));
+        assertThat("Only one token expected", tokens.size(), is(1));
         assertThat("Failed to strip leading \'_\'", tokens.get(0), equalTo("test"));
     }
 
@@ -89,23 +86,23 @@ public class BasicTokeniserTest {
         String test = "test$";
 
         List<String> tokens = tokeniser.tokenise(test);
-	assertThat("Only one token expected", tokens.size(), is(1));
+        assertThat("Only one token expected", tokens.size(), is(1));
         assertThat("Failed to strip trailing \'$\'", tokens.get(0), is(equalTo("test")));
 
         test = "test$$";
         tokens = tokeniser.tokenise(test);
-	assertThat("Only one token expected", tokens.size(), is(1));
+        assertThat("Only one token expected", tokens.size(), is(1));
         assertThat("Failed to strip trailing \'$$\'", tokens.get(0), is(equalTo("test")));
 
         test = "test__";
         tokens = tokeniser.tokenise(test);
         assertThat("Only one token expected", tokens.size(), is(1));
-        assertThat("Failed to strip trailing \'__\'",  tokens.get(0), is(equalTo("test")));
+        assertThat("Failed to strip trailing \'__\'", tokens.get(0), is(equalTo("test")));
 
         test = "test_";
         tokens = tokeniser.tokenise(test);
         assertThat("Only one token expected", tokens.size(), is(1));
-        assertThat("Failed to strip trailing \'_\' from test_",  tokens.get(0), is(equalTo("test")));
+        assertThat("Failed to strip trailing \'_\' from test_", tokens.get(0), is(equalTo("test")));
     }
 
     // embedded separators
@@ -115,35 +112,28 @@ public class BasicTokeniserTest {
         String test = "TEST_CONSTANT";
 
         List<String> tokens = tokeniser.tokenise(test);
-	
-	assertThat("Two tokens expected", tokens.size(), is(2));
-        assertThat("Split constant incorrectly", 
-                tokens, 
-		contains("TEST", "CONSTANT"));
+
+        assertThat("Two tokens expected", tokens.size(), is(2));
+        assertThat("Split constant incorrectly", tokens, contains("TEST", "CONSTANT"));
 
     }
-    
+
     @Test
     public void embeddedSeparatorTwo() {
         String test = "TEST_CONSTANT_SECOND";
         List<String> tokens = tokeniser.tokenise(test);
-	assertThat("Three tokens expected", tokens.size(), is(3));
-        assertThat("Split three part constant incorrectly", 
-		tokens, 
-		contains("TEST", "CONSTANT", "SECOND"));
+        assertThat("Three tokens expected", tokens.size(), is(3));
+        assertThat("Split three part constant incorrectly", tokens, contains("TEST", "CONSTANT", "SECOND"));
     }
-    
-    
+
     @Test
     public void embeddedSeparatorThree() {
         String test = "one_two_three$four";
         List<String> tokens = tokeniser.tokenise(test);
-	assertThat("Four tokens expected", tokens.size(), is(4));
-        assertThat("Split lower case with embedded separator incorrectly",
-                tokens,
-		contains("one", "two", "three", "four"));
+        assertThat("Four tokens expected", tokens.size(), is(4));
+        assertThat("Split lower case with embedded separator incorrectly", tokens,
+                contains("one", "two", "three", "four"));
     }
-
 
     @Test
     public void embeddedContiguousSeparatorsOne() {
@@ -151,25 +141,21 @@ public class BasicTokeniserTest {
         String test = "TEST__CONSTANT";
 
         List<String> tokens = tokeniser.tokenise(test);
-	assertThat("Expected two tokens", tokens.size(), is(2));
-        assertThat("Split incorrectly round two contiguous separators",
-                tokens, 
-		contains("TEST", "CONSTANT"));
+        assertThat("Expected two tokens", tokens.size(), is(2));
+        assertThat("Split incorrectly round two contiguous separators", tokens, contains("TEST", "CONSTANT"));
 
     }
-    
-        @Test
+
+    @Test
     public void embeddedContiguousSeparatorsTwo() {
 
-	String test = "TEST$_$CONSTANT";
+        String test = "TEST$_$CONSTANT";
 
         List<String> tokens = tokeniser.tokenise(test);
-	assertThat("Expected two tokens", tokens.size(), is(2));
-        assertThat("Split constant incorrectly around '$_$'",
-		tokens,
-		contains("TEST", "CONSTANT"));
+        assertThat("Expected two tokens", tokens.size(), is(2));
+        assertThat("Split constant incorrectly around '$_$'", tokens, contains("TEST", "CONSTANT"));
     }
-    
+
     // word division - Camel case
     @Test
     public void camelCase() {
@@ -177,56 +163,39 @@ public class BasicTokeniserTest {
 
         List<String> tokens = tokeniser.tokenise(test);
 
-	assertThat("Expected four tokens", tokens.size(), is(4));
-        assertThat("Split camelCase incorrectly",
-		tokens, 
-		contains("normal", "Camel", "Case", "Identifier"));
+        assertThat("Expected four tokens", tokens.size(), is(4));
+        assertThat("Split camelCase incorrectly", tokens, contains("normal", "Camel", "Case", "Identifier"));
     }
-
 
     @Test
     public void camelCaseUcAbbr() {
         String test = "upperCaseABBR";
 
         List<String> tokens = tokeniser.tokenise(test);
-	assertThat("trailing UC abbreviation split incorrectly: "
-		+ "3 tokens expected",
-		tokens.size(), 
-		is(3));
-        assertThat("trailing UC abbreviation split incorrectly",
-                tokens,
-		contains("upper", "Case", "ABBR"));
+        assertThat("trailing UC abbreviation split incorrectly: " + "3 tokens expected", tokens.size(), is(3));
+        assertThat("trailing UC abbreviation split incorrectly", tokens, contains("upper", "Case", "ABBR"));
 
     }
-        
+
     @Test
     public void camelCaseUcAbbrEmbedded() {
-	String test = "upperCaseABBREmbedded";
+        String test = "upperCaseABBREmbedded";
 
         List<String> tokens = tokeniser.tokenise(test);
 
-	assertThat("UC abbreviation in camel case split incorrectly: "
-		+ "4 tokens expected",
-		tokens.size(),
-		is(4));
-        assertThat("UC abbreviation in camel case split incorrectly",
-		tokens, 
+        assertThat("UC abbreviation in camel case split incorrectly: " + "4 tokens expected", tokens.size(), is(4));
+        assertThat("UC abbreviation in camel case split incorrectly", tokens,
                 contains("upper", "Case", "ABBR", "Embedded"));
     }
-
 
     @Test
     public void camelCaseLeadingUC() {
         String test = "NormalCamelCaseIdentifier";
 
         List<String> tokens = tokeniser.tokenise(test);
-        assertThat("Split camelCase with leading UC letter incorrectly: "
-		+ "4 tokens expected",
-		tokens.size(),
-		is(4));
-        assertThat("Split camelCase with leading UC letter incorrectly",
-                tokens,
-		contains("Normal", "Camel", "Case", "Identifier"));
+        assertThat("Split camelCase with leading UC letter incorrectly: " + "4 tokens expected", tokens.size(), is(4));
+        assertThat("Split camelCase with leading UC letter incorrectly", tokens,
+                contains("Normal", "Camel", "Case", "Identifier"));
     }
 
     @Test
@@ -234,13 +203,9 @@ public class BasicTokeniserTest {
         String test = "HTMLEditorKit";
 
         List<String> tokens = tokeniser.tokenise(test);
-        assertThat("Split camelCase with leading abbreviation incorrectly: "
-		+ "3 tokens expected",
-		tokens.size(),
-		is(3));
-        assertThat("Split camelCase with leading abbreviation incorrectly",
-		tokens,
-                contains("HTML", "Editor", "Kit"));
+        assertThat("Split camelCase with leading abbreviation incorrectly: " + "3 tokens expected", tokens.size(),
+                is(3));
+        assertThat("Split camelCase with leading abbreviation incorrectly", tokens, contains("HTML", "Editor", "Kit"));
     }
 
     // digits
@@ -254,50 +219,71 @@ public class BasicTokeniserTest {
 
         List<String> tokens = tokeniser.tokenise(test);
 
-        assertThat("Failed to split unrecognised embedded digit abbreviation "
-		+ "correctly: expected 3 tokens",
-		tokens.size(),
-		is(3));
-        assertThat("Failed to split unrecognised embedded digit abbreviation correctly",
-                tokens, 
-		contains("area", "G3F", "Triangle"));
+        assertThat("Failed to split unrecognised embedded digit abbreviation " + "correctly: expected 3 tokens",
+                tokens.size(), is(3));
+        assertThat("Failed to split unrecognised embedded digit abbreviation correctly", tokens,
+                contains("area", "G3F", "Triangle"));
     }
+
+    @Test
+    public void recognisedOverlappingDigitAbbreviation() {
+        String test = "createJunit3Description";
+
+        List<String> tokens = tokeniser.tokenise(test);
+
+        assertThat("Failed to split recognised embedded digit abbreviation " + "correctly: expected 3 tokens",
+                tokens.size(), is(3));
+        assertThat("Failed to split recognised embedded digit abbreviation correctly", tokens,
+                contains("create", "Junit3", "Description"));
+    }
+
+    @Test
+    public void recognisedOverlappingMultipleAbbreviations() {
+        String test = "createJunit3DescriptionCreateJunit3Description";
+
+        List<String> tokens = tokeniser.tokenise(test);
+
+        assertThat("Failed to split recognised multiple digit abbreviations " + "correctly: expected 6 tokens",
+                tokens.size(), is(6));
+        assertThat("Failed to split recognised recognised multiple digit abbreviations correctly", tokens,
+                contains("create", "Junit3", "Description", "Create", "Junit3", "Description"));
+    }
+
+    @Test
+    public void mixedRecognitionMultipleAbbreviations() {
+        String test = "createJunit3DescriptionAreaG3FTriangle";
+
+        List<String> tokens = tokeniser.tokenise(test);
+
+        assertThat("Failed to split mixed recognition abbreviations " + "correctly: expected 6 tokens",
+                tokens.size(), is(6));
+        assertThat("Failed to split recognised embedded digit abbreviation correctly", tokens,
+                contains("create", "Junit3", "Description", "Area", "G3F", "Triangle"));
+    }
+
 
     @Test
     public void swingNameTest() {
         List<String> tokens = tokeniser.tokenise("JPanel");
-	
-	assertThat("Failed to split JPanel as expected: 3 tokens expected",
-		tokens.size(),
-		is(2));
-        assertThat("Failed to split JPanel",
-                tokens,
-		contains("J", "Panel"));
+
+        assertThat("Failed to split JPanel as expected: 3 tokens expected", tokens.size(), is(2));
+        assertThat("Failed to split JPanel", tokens, contains("J", "Panel"));
     }
-    
-    
+
     @Test
     public void twoSoftWords() {
         List<String> tokens = tokeniser.tokenise("Redobuff");
 
-        assertThat("Failed to split Redobuff correctly: expected 2 tokens",
-		tokens.size(),
-		is(2));
-        assertThat("Failed to split Redobuff",
-		tokens,
-		contains("Redo", "buff")); 
+        assertThat("Failed to split Redobuff correctly: expected 2 tokens", tokens.size(), is(2));
+        assertThat("Failed to split Redobuff", tokens, contains("Redo", "buff"));
     }
 
     @Test
     public void sandwichedTwoSoftWords() {
         List<String> tokens = tokeniser.tokenise("megaRedobuffSync");
 
-        assertThat("Failed to split megaRedobuffSync correctly: expected 4 tokens",
-		tokens.size(),
-		is(4));
-        assertThat("Failed to split Redobuff",
-		tokens,
-                contains("mega", "Redo", "buff", "Sync"));
+        assertThat("Failed to split megaRedobuffSync correctly: expected 4 tokens", tokens.size(), is(4));
+        assertThat("Failed to split Redobuff", tokens, contains("mega", "Redo", "buff", "Sync"));
     }
-    
+
 }

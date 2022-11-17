@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>uk.org.facetus</groupId>
   <artifactId>intt</artifactId>
-  <version>0.8.11</version>
+  <version>0.8.12a</version>
   <name>intt</name>
   <description>A library for tokenising Java identifier names</description>
   <url>https://github.com/sjbutler/intt</url>
